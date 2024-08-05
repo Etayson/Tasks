@@ -1,0 +1,1 @@
+If the order amount is less or equal to the order amount in the orderbook, then the order is executed in O(1), otherwise for O(n) were n = amount_in_the_orderbook / amount
