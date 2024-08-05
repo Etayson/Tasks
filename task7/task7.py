@@ -5,6 +5,7 @@ def max_candies(pinatas):
     Stack=[]
     lenght = len(pinatas)
     maxcandies = 0
+    maxsequence=[]
     quit = False
     index=0
     candies = 0
@@ -25,10 +26,13 @@ def max_candies(pinatas):
                 arrcopy = pinatas.copy()
                 arrcopy[index] = 0
                 Stack.append([arrcopy, index, candies])
-                
-                
+                                
                 if candies>maxcandies:
                     maxcandies=candies
+                    maxsequence = []
+                    maxsequence.append(arrcopy)
+                elif candies==maxcandies:
+                    maxsequence.append(arrcopy)
                 candies = loadedcandies
         
         if index<lenght-1:
@@ -38,23 +42,25 @@ def max_candies(pinatas):
             if len(Stack):
                 LastElem = Stack.pop()
                 pinatas, index, candies = LastElem[0], LastElem[1], LastElem[2]
-                loadedcandies = candies
-                
+                loadedcandies = candies               
                 if index<lenght-1:
                     index +=1
             else:
-                quit = True  
+                quit = True 
         
-        
-    return maxcandies
+    return maxcandies, maxsequence
 
 while True:
     #The solution will be correct if the array of nums is an array of candies for the pinata
     pinatas = []
     array_of_num = input('Enter array of nums ex. 3,5,1: ') 
-    if len(array_of_num)>0:
+    if len(array_of_num)>1:
         for x in array_of_num.replace(" ", "").split(','):
-            pinatas.append(int(x))
-        
-        print(f'max amount of candies: {max_candies(pinatas)}')
-    exit()
+            pinatas.append(int(x))        
+        maxcandies, maxsequence = max_candies(pinatas)
+        print(f'array:   {pinatas}')
+        for sequence in maxsequence:
+            print(f"sequence:[{', '.join('#' if x == 0 else str(x) for x in sequence)}]")
+        print(f'max amount of candies: {maxcandies}')
+    else:
+        print(f'Enter at least two values for array of nums')
